@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyTorch/YOLO Weights
+*.pt
+
+# Datasets
+dataset/
+yolo_dataset/
+yolo_obb_dataset/
+
+# Runs/Outputs
+test/
+test_output_obb/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+env.bak/
+venv.bak/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/

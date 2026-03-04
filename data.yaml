@@ -1,0 +1,6 @@
+path: c:/Users/lenovo/Desktop/PROJECTS/Internship-Gp3/fiber_24-01-26/yolo_dataset
+train: images/train
+val: images/val
+
+nc: 2
+names: ['Splice_can', 'Node']
