@@ -50,3 +50,9 @@ v7_metrics.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+testing/
+dataset/
+after/
+before/
+3x3 and 4x4/
