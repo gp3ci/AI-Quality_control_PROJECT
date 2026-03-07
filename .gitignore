@@ -1,0 +1,86 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+
+# =========================
+# Virtual Environments
+# =========================
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# =========================
+# OS Generated Files
+# =========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# =========================
+# YOLO / Model Weights
+# =========================
+models/*.pt
+runs/
+*.onnx
+*.tflite
+*.engine
+
+# =========================
+# Generated Output Files
+# =========================
+tiles/before/
+tiles/after/
+detection_images/
+results/
+ref_before_aligned.png
+ref_after_aligned.png
+tiles/
+# =========================
+# Large Data Files
+# =========================
+all_ocr_results.json
+ocr.txt
+final_report.txt
+test_log.txt
+
+# =========================
+# Input Maps (Optional)
+# =========================
+# Uncomment if you don't want to track input maps in git
+# input_maps/*.pdf
+
+# =========================
+# Jupyter Notebooks
+# =========================
+.ipynb_checkpoints/
+*.ipynb
+
+# =========================
+# Logs & Temp Files
+# =========================
+*.log
+*.tmp
+*.bak

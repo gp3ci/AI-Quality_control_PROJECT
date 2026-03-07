@@ -1,0 +1,104 @@
+# Coax Rule Engine - Rules Explanation
+
+This document explains all the business logic rules currently programmed into `telecom_rules.py` and what specific conditions trigger them.
+
+## 1. General Processing
+The pipeline detects objects in a "Before" map and an "After" map. It then attempts to pair objects that exist in roughly the same location across both maps. 
+Based on these pairings (Matched, Added, or Removed), the rule engine evaluates the following conditions:
+
+---
+
+## 2. Global Rule (Applies to all objects in the After map)
+
+1. **Amplifier Present ("A")**
+   - **Condition:** Any valid Amplifier (specifically Dual, 3-Way, or 3way amplifiers) found in the After map, regardless of whether it was newly added or matched from the Before map.
+   - **Callout:** `A`
+
+---
+
+## 3. Matched Objects (Objects existing in both Before and After maps)
+
+2. **Line Extender upgraded to Amplifier ("B")**
+   - **Condition:** A Line Extender in the Before map is removed and replaced by an Amplifier in the exact same location in the After map.
+   - **Callout:** `B`
+
+3. **Tap - Add Equalizer ("ADD CE - XX")**
+   - **Condition:** A Tap's extracted OCR text contains "EQZ" or "CE". The rule extracts the last two digits of the text and inserts them into the callout.
+   - **Callout:** `ADD CE - [extracted digits]`
+
+4. **Tap Value Change + Terminator Added ("E, ADD TERM")**
+   - **Condition:** A Tap's text/value changes between the Before and After maps, AND a new Terminator was added within 80 pixels of this tap in the After map.
+   - **Callout:** `E, ADD TERM`
+
+5. **Tap Value Change + Terminator Removed ("E, REMOVE TERM")**
+   - **Condition:** A Tap's text/value changes between the Before and After maps, AND a Terminator that used to be within 80 pixels of this tap in the Before map was removed.
+   - **Callout:** `E, REMOVE TERM`
+
+6. **Tap Value Change Only ("E")**
+   - **Condition:** A Tap's text/value changes between the Before and After maps, but there are no Terminator additions or removals nearby.
+   - **Callout:** `E`
+
+7. **Node Downgrade (4x4 to 2x2)**
+
+   - **Condition:** A 4x4 Node in the Before map is replaced by a 2x2 Node in the exact location in the After map.
+   - **Callout:** `REPLACE EXISTING 4X4 WITH SEGMENTED 2X2 , RESPLICE AS SHOWN`
+
+8. **Node Downgrade (3x3 to 2x2)**
+   - **Condition:** A 3x3 Node in the Before map is replaced by a 2x2 Node in the exact location in the After map.
+   - **Callout:** `REPLACE EXISTING 3X3 WITH SEGMENTED 2X2 , RESPLICE AS SHOWN`
+
+9. **Node Upgrade**
+   - **Condition:** A specifically identified Node (1x1, 2x2, 3x3, or 4x4) is matched in both Before and After maps .
+   - **Callout:** `UPGRADE NODE
+
+10. **Splitter Change ("G")**
+    - **Condition:** A Splitter is present in both maps, but its specific type changes (e.g., 2-way becomes 3-way) OR its extracted OCR text/value changes.
+    - **Callout:** `G`
+
+11. **Power Supply Upgrade**
+    - **Condition:** A Power Supply is matched in both maps, and its extracted voltage value changes.
+    - **Callout:** `UPGRADE POWER SUPPLY`
+
+12. **Power Supply High Current Warning**
+    - **Condition:** A Power Supply in the After map has an extracted connected current draw value greater than 12.0 Amps.
+    - **Callout:** `POWER SUPPLY OVER 80% - PLEASE VERIFY CURRENT DRAW`
+
+---
+
+## 4. Removed Objects (Objects in Before map but deleted in After map)
+
+13. **Remove Splitter**
+    - **Condition:** Any type of Splitter is present in the Before map but is missing from the After map.
+    - **Callout:** `REMOVE SPLITTER`
+
+14. **Remove Power Block** 
+    - **Condition:** A Power Block is present in the Before map but is missing from the After map.
+    - **Callout:** `REMOVE POWER BLOCK`
+
+15. **Equalizer Removed or Replaced ("J" or "J, ADD SPLICE BLOCK")**
+    - **Condition:** An Equalizer is removed. If a new "Splice" block is added within 100 pixels, the callout adds instructions to include a splice block.
+    - **Callout:** `J` or `J, ADD SPLICE BLOCK`
+
+---
+
+## 5. Added Objects (Completely new objects found only in the After map)
+
+15. **New Booster ("H")**
+    - **Condition:** A newly added Booster appears in the After map.
+    - **Callout:** `H`
+
+16. **New Line Extender ("H")**
+    - **Condition:** A newly added Line Extender appears in the After map.
+    - **Callout:** `H`
+
+17. **New Int/DC Splitter**
+    - **Condition:** A newly added Splitter that specifically has "int" or "dc" in its class name appears in the After map.
+    - **Callout:** `UPGRADE INT DC`
+
+18. **New Power Block**
+    - **Condition:** A newly added Power Block appears in the After map.
+    - **Callout:** `ADD POWER BLOCK`
+
+19. **Upgrade 2-Way inside Amp**
+    - **Condition:** A newly added 2-Way Splitter appears in the After map AND it is physically located within 100 pixels of any detected Amplifier.
+    - **Callout:** `UPGRADE 2 WAY SPLITTER`
