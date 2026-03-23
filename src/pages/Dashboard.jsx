@@ -5,10 +5,7 @@ import { MapEntryForm } from '../components/features/MapEntryForm';
 import { HowToUse } from '../components/features/HowToUse';
 import { Instructions } from '../components/features/Instructions';
 
-const tabs = [
-  { id: 'fiber', label: 'Fiber', path: '/dashboard/fiber' },
-  { id: 'coax', label: 'Coaxial', path: '/dashboard/coax' },
-];
+
 
 const Dashboard = () => {
   return (
@@ -18,22 +15,7 @@ const Dashboard = () => {
           My Dashboard
         </h1>
         
-        <div className="flex items-center gap-3 overflow-x-auto pb-2 custom-scrollbar">
-          {tabs.map((tab) => (
-            <NavLink
-              key={tab.id}
-              to={tab.path}
-              className={({ isActive }) => `
-                neu-button px-8 py-2.5 !text-sm whitespace-nowrap
-                ${isActive 
-                  ? '!bg-[var(--accent)] !text-white !shadow-none' 
-                  : 'opacity-80 hover:opacity-100'}
-              `}
-            >
-              {tab.label}
-            </NavLink>
-          ))}
-        </div>
+
       </div>
 
       <div className="bg-[var(--secondary)]/30 rounded-[2rem] p-1 border border-[var(--glass-border)]">

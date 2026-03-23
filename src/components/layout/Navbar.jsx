@@ -20,7 +20,7 @@ export const Navbar = () => {
       try {
         const data = new Uint8Array(e.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
-        
+
         const results = {
           coaxTapsCount: 0,
           coaxTapsUpgrade: 0,
@@ -29,17 +29,17 @@ export const Navbar = () => {
         };
 
         const sheetNames = workbook.SheetNames;
-        
+
         // Helper to find sheet name case-insensitively
         const findSheet = (name) => sheetNames.find(s => s.toLowerCase().replace(/\s/g, '') === name.toLowerCase());
 
         const processSheetData = (sheetName, isActives = false) => {
           const targetName = findSheet(sheetName);
           if (!targetName) return;
-          
+
           const sheet = workbook.Sheets[targetName];
           const json = XLSX.utils.sheet_to_json(sheet);
-          
+
           json.forEach(row => {
             const count = parseFloat(row['COUNT']) || 0;
             const upgrade = parseFloat(row['UPGRADE']) || 0;
@@ -79,19 +79,11 @@ export const Navbar = () => {
           </svg>
         </div>
         <span className="text-2xl font-bold tracking-tight text-[var(--card-foreground)]">
-          ENRGY Vision
+          ENERGY Vision
         </span>
       </div>
 
-      {/* Centered Search Bar */}
-      <div className="hidden md:flex flex-1 max-w-md mx-8 relative group">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[var(--accent)] transition-colors" />
-        <input 
-          type="text" 
-          placeholder="Search for maps, nodes, or audits..."
-          className="w-full bg-[var(--secondary)] border-none rounded-2xl py-2.5 pl-11 pr-4 text-sm focus:ring-1 focus:ring-[var(--accent)] transition-all outline-none"
-        />
-      </div>
+
 
       {/* Right Side Actions */}
       <div className="flex items-center gap-6">
@@ -99,7 +91,7 @@ export const Navbar = () => {
           <button className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[var(--secondary)] transition-colors text-slate-400 hover:text-[var(--accent)]">
             <Bell className="w-5 h-5" />
           </button>
-          <button 
+          <button
             onClick={() => setIsCalcOpen(true)}
             className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${isCalcOpen ? 'bg-[var(--accent)] text-white shadow-lg' : 'hover:bg-[var(--secondary)] text-slate-400 hover:text-[var(--accent)]'}`}
           >
@@ -111,14 +103,14 @@ export const Navbar = () => {
 
         <div className="flex items-center gap-3 cursor-pointer group">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-bold text-[var(--card-foreground)]">Hi Devid!</p>
+            <p className="text-sm font-bold text-[var(--card-foreground)]">Hi Matt !</p>
           </div>
           <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md group-hover:ring-2 ring-[var(--accent)] transition-all">
-             <img 
-               src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" 
-               alt="User profile"
-               className="w-full h-full object-cover bg-slate-100 dark:bg-slate-800"
-             />
+            <img
+              src="https://api.dicebear.com/9.x/toon-head/svg?seed=George"
+              alt="User profile"
+              className="w-full h-full object-cover bg-slate-100 dark:bg-slate-800"
+            />
           </div>
         </div>
       </div>
@@ -127,14 +119,14 @@ export const Navbar = () => {
       <AnimatePresence>
         {isCalcOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsCalcOpen(false)}
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -146,12 +138,12 @@ export const Navbar = () => {
               <div className="flex justify-between items-start mb-10">
                 <div className="space-y-1">
                   <h2 className="text-2xl font-black text-[var(--card-foreground)] uppercase tracking-tighter flex items-center gap-3">
-                    <Calculator className="w-6 h-6 text-[var(--accent)]" /> 
+                    <Calculator className="w-6 h-6 text-[var(--accent)]" />
                     BOM Calculator
                   </h2>
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">ENRGY TECH BOM Analysis Tool</p>
                 </div>
-                <button 
+                <button
                   onClick={() => { setIsCalcOpen(false); setResults(null); }}
                   className="p-2 hover:bg-[var(--secondary)] rounded-xl transition-all text-slate-400"
                 >
@@ -167,7 +159,7 @@ export const Navbar = () => {
                   </div>
                   <p className="font-black text-[var(--card-foreground)] tracking-tight">Upload BOM File</p>
                   <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest text-center px-8">Supports CSV, XLSX, and XLSM formats</p>
-                  
+
                   {isAnalyzing && (
                     <div className="absolute inset-0 bg-[var(--card)]/80 backdrop-blur-sm flex items-center justify-center">
                       <div className="flex flex-col items-center gap-3">
@@ -182,7 +174,7 @@ export const Navbar = () => {
                   {/* CoaxTaps Analysis */}
                   <div className="bg-[var(--secondary)]/60 p-8 rounded-[2rem] border border-[var(--glass-border)] relative overflow-hidden">
                     <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-                       <FileSpreadsheet className="w-3.5 h-3.5" /> CoaxTaps Analysis
+                      <FileSpreadsheet className="w-3.5 h-3.5" /> CoaxTaps Analysis
                     </h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-[var(--card)] p-5 rounded-2xl border border-[var(--glass-border)] space-y-1">
@@ -214,7 +206,7 @@ export const Navbar = () => {
                     </div>
                   </div>
 
-                  <button 
+                  <button
                     onClick={() => setResults(null)}
                     className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-[var(--accent)] transition-colors"
                   >
