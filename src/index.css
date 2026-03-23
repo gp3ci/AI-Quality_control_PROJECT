@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --background: #dbe2e8;
+    --foreground: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --accent: #7c3aed;
+    --accent-foreground: #ffffff;
+    --card: #eef2f6;
+    --card-foreground: #0f172a;
+    --secondary: #cbd5e1;
+    --secondary-foreground: #0f172a;
+  }
+
+  .dark {
+    --background: #020104;
+    --foreground: #f8fafc;
+    --glass-bg: rgba(17, 17, 17, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --accent: #a78bfa;
+    --accent-foreground: #ffffff;
+    --card: #111111;
+    --card-foreground: #f8fafc;
+    --secondary: #1a1a2e;
+    --secondary-foreground: #f8fafc;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-[var(--glass-bg)] border border-[var(--glass-border)] backdrop-blur-md shadow-lg rounded-2xl;
+  }
+  
+  .glass-input {
+    @apply bg-transparent border border-[var(--glass-border)] text-foreground placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-lg px-4 py-2 transition-all;
+  }
+  
+  .neu-button {
+    background-color: #dbe2e8;
+    border-radius: 50px;
+    box-shadow: inset 4px 4px 10px #b0b9c1, inset -4px -4px 10px #ffffff;
+    color: #334155;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px 30px;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid #cbd5e1;
+    @apply flex items-center justify-center gap-2 font-bold;
+  }
+
+  .neu-button:hover {
+    box-shadow: inset 2px 2px 5px #b0b9c1, inset -2px -2px 5px #ffffff, 2px 2px 5px #b0b9c1, -2px -2px 5px #ffffff;
+    @apply scale-[1.02];
+  }
+
+  .neu-button:focus {
+    outline: none;
+    box-shadow: inset 2px 2px 5px #bcbcbc, inset -2px -2px 5px #ffffff, 2px 2px 5px #bcbcbc, -2px -2px 5px #ffffff;
+  }
+
+  /* Dark mode neurmorphism */
+  .dark .neu-button {
+    background-color: #1a1a2e;
+    box-shadow: inset 4px 4px 10px #0d0d1a, inset -4px -4px 10px #272742;
+    border-color: #272742;
+    color: #cbd5e1;
+  }
+}
+
+body {
+  @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
+}
