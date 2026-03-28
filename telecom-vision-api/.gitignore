@@ -21,7 +21,7 @@ env/
 .env
 
 # Model weights (large binaries — store in DVC or object storage)
-model_weights/*.pt
+
 
 # IDE
 .vscode/
