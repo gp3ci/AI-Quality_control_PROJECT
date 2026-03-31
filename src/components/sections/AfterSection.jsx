@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiberOverviewSection } from './FiberOverviewSection';
 import { FiberMapSection } from './FiberMapSection';
+import { SchematicFiberSection } from './SchematicFiberSection';
 import './sections.css';
 
 export const AfterSection = () => {
@@ -9,7 +10,8 @@ export const AfterSection = () => {
 
   const tabs = [
     { id: 'fiber', label: 'Fiber Map Processing' },
-    { id: 'overview', label: 'Fiber Overview Processing' }
+    { id: 'overview', label: 'Fiber Overview Processing' },
+    { id: 'schematic', label: 'Schematic Fiber Processing' }
   ];
 
   return (
@@ -73,6 +75,7 @@ export const AfterSection = () => {
           >
             {activeTab === 'fiber' && <FiberMapSection />}
             {activeTab === 'overview' && <FiberOverviewSection />}
+            {activeTab === 'schematic' && <SchematicFiberSection />}
           </motion.div>
         </AnimatePresence>
       </div>

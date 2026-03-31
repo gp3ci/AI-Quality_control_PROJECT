@@ -64,6 +64,11 @@ export const BeforeSection = () => {
                 <div className="upload-text">Upload Fiber Map</div>
                 <Button variant="secondary" style={{ marginTop: '0.5rem' }}>Browse Files</Button>
               </motion.div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}>
+                <Button style={{ gap: '0.6rem', width: '100%', justifyContent: 'center' }}>
+                  <Download size={18} /> Download Fiber Map Processed
+                </Button>
+              </div>
             </div>
           </Card>
         </motion.div>
@@ -86,20 +91,17 @@ export const BeforeSection = () => {
                 <div className="upload-text">Upload Coax Map</div>
                 <Button variant="secondary" style={{ marginTop: '0.5rem' }}>Browse Files</Button>
               </motion.div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}>
+                <Button style={{ gap: '0.6rem', width: '100%', justifyContent: 'center', backgroundColor: '#f59e0b', borderColor: '#f59e0b' }}>
+                  <Download size={18} /> Download Coax Map Processed
+                </Button>
+              </div>
             </div>
           </Card>
         </motion.div>
       </div>
 
-      <motion.div 
-        variants={itemVariants}
-        style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}
-      >
-        <Button>
-          <Download size={18} />
-          Download Processed Map
-        </Button>
-      </motion.div>
+
     </motion.div>
   );
 };

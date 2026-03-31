@@ -27,6 +27,8 @@ export const BomCalculator = ({ onClose }) => {
           coaxTapsUpgrade: 0,
           coaxActivesUpgrade: 0,
           coaxActivesUpgradeDesign: 0,
+          coaxAerialFootage: 0,
+          coaxUndergroundFootage: 0,
         };
 
         const findSheet = (name) =>
@@ -53,8 +55,47 @@ export const BomCalculator = ({ onClose }) => {
           });
         };
 
+        const processFootageData = () => {
+          const sheetName = findSheet('CoaxQuickDetails');
+          if (!sheetName) return;
+          const sheet = workbook.Sheets[sheetName];
+          // Use { header: 1 } to get raw arrays for more robust parsing
+          const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+          if (!data || data.length === 0) return;
+
+          // Find column indices
+          const headerRow = data[0] || [];
+          const typeColIndex = headerRow.findIndex(h => h?.toString().toLowerCase().includes('type') || h?.toString().toLowerCase().includes('description'));
+          const feetColIndex = headerRow.findIndex(h => h?.toString().toLowerCase() === 'feet' || h?.toString().toLowerCase().includes('foot'));
+
+          // Fallback: if headers not identified, search row by row
+          data.slice(1).forEach((row) => {
+            let rowType = '';
+            let rowFeet = 0;
+
+            if (typeColIndex !== -1 && feetColIndex !== -1) {
+              rowType = row[typeColIndex]?.toString().toLowerCase().trim();
+              rowFeet = parseFloat(row[feetColIndex]) || 0;
+            } else {
+              // Brute force search in the row
+              rowType = row.find(cell => ['aerial', 'riser', 'underground'].includes(cell?.toString().toLowerCase().trim()))?.toString().toLowerCase().trim() || '';
+              // For feet, we check if there's a number and we didn't use it for type
+              const possibleFeet = row.find(cell => !isNaN(parseFloat(cell)) && typeof cell !== 'string');
+              rowFeet = parseFloat(possibleFeet) || 0;
+              // If no explicit feet column, this is risky. Let's try to find a column with 'FEET' in header again.
+            }
+
+            if (rowType === 'aerial') {
+              results.coaxAerialFootage += rowFeet;
+            } else if (rowType === 'riser' || rowType === 'underground') {
+              results.coaxUndergroundFootage += rowFeet;
+            }
+          });
+        };
+
         processSheetData('CoaxTaps');
         processSheetData('CoaxActives', true);
+        processFootageData();
 
         setResults(results);
       } catch (err) {
@@ -224,9 +265,18 @@ export const BomCalculator = ({ onClose }) => {
                   <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.75rem' }}>
                     Coax Actives
                   </p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
                     <ResultCard label="Upgrade" value={results.coaxActivesUpgrade} accent />
                     <ResultCard label="Upgrade + Design" value={results.coaxActivesUpgradeDesign} accent />
+                  </div>
+
+                  {/* Coax Footage Results */}
+                  <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.75rem' }}>
+                    Coax FTG
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+                    <ResultCard label="Aerial Footage" value={results.coaxAerialFootage} />
+                    <ResultCard label="Underground Footage" value={results.coaxUndergroundFootage} />
                   </div>
 
                   {/* Reset */}
